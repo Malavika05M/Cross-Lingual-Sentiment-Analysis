@@ -88,9 +88,11 @@ class MaskedAttention(nn.Module):
 class CNNBiLSTMAttention(nn.Module):
     """Deep Hybrid: Trainable Embedding -> Parallel CNNs -> BiLSTM -> Masked Attention -> Head."""
     def __init__(self, vocab_size, emb_dim=EMB_DIM, kernels=KERNELS,
-                 filters=FILTERS, hidden_dim=HIDDEN_DIM, dropout=DROPOUT):
+                 filters=FILTERS, hidden_dim=HIDDEN_DIM, dropout=DROPOUT,
+                 classifier_dropout=0.3, embedding_dropout=0.0):
         super().__init__()
         self.embedding = nn.Embedding(vocab_size, emb_dim, padding_idx=0)
+        self.embedding_dropout = nn.Dropout(embedding_dropout)
         self.convs = nn.ModuleList([
             nn.Conv1d(emb_dim, filters, kernel_size=k, padding="same")
             for k in kernels
@@ -108,14 +110,14 @@ class CNNBiLSTMAttention(nn.Module):
         self.classifier = nn.Sequential(
             nn.Linear(hidden_dim * 2, 64),
             nn.ReLU(),
-            nn.Dropout(0.3),
+            nn.Dropout(classifier_dropout),
             nn.Linear(64, 1)
         )
 
     def forward(self, x):
         # x: (B, L) token IDs
         mask = (x != 0)                        # True for non-pad tokens
-        e = self.embedding(x).transpose(1, 2)  # (B, emb_dim, L)
+        e = self.embedding_dropout(self.embedding(x)).transpose(1, 2)  # (B, emb_dim, L)
         # Parallel convolutions with padding='same' preserve sequence length L
         c_feats = [torch.relu(conv(e)) for conv in self.convs]
         c_cat = torch.cat(c_feats, dim=1).transpose(1, 2)  # (B, L, conv_out_dim)

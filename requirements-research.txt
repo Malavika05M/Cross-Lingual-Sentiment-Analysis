@@ -1,0 +1,8 @@
+# Research upgrade: African-language transformer adaptation
+-r requirements.txt
+transformers>=4.41,<5
+datasets>=2.19
+accelerate>=0.30
+peft>=0.11
+safetensors>=0.4
+gensim>=4.3

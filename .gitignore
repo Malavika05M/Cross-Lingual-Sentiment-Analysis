@@ -16,5 +16,8 @@ ENV/
 .DS_Store
 Thumbs.db
 
+# Large research-model artifacts
+research_outputs/
+
 # Large raw datasets or temp files if needed
 # (processed data and checkpoints are small enough for GitHub < 20MB)

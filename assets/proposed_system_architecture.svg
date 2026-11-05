@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title description">
+  <title id="title">Proposed System Architecture</title>
+  <desc id="description">A shared text preprocessing pipeline branches to a blue TextCNN model and a green CNN-BiLSTM-Attention model, both ending in positive or negative sentiment.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title { font: 700 42px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 21px Arial, sans-serif; fill: #475569; }
+      .boxtext { font: 700 24px Arial, sans-serif; fill: #0f172a; text-anchor: middle; }
+      .small { font: 400 19px Arial, sans-serif; fill: #334155; text-anchor: middle; }
+      .branchleft { font: 700 19px Arial, sans-serif; fill: #1976d2; text-anchor: end; }
+      .branchright { font: 700 19px Arial, sans-serif; fill: #1b8f5a; text-anchor: start; }
+      .modeltitle { font: 700 28px Arial, sans-serif; fill: #ffffff; text-anchor: middle; }
+      .modeltext { font: 400 21px Arial, sans-serif; fill: #ffffff; text-anchor: middle; }
+      .output { font: 700 27px Arial, sans-serif; fill: #ffffff; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#ffffff"/>
+  <text x="800" y="65" class="title" text-anchor="middle">Proposed System Architecture</text>
+  <text x="800" y="100" class="subtitle" text-anchor="middle">English and Yoruba movie review sentiment classification</text>
+
+  <g stroke="#94a3b8" stroke-width="2" fill="#f8fafc">
+    <rect x="570" y="145" width="460" height="70" rx="14"/>
+    <rect x="570" y="260" width="460" height="80" rx="14"/>
+    <rect x="570" y="385" width="460" height="80" rx="14"/>
+    <rect x="570" y="510" width="460" height="80" rx="14"/>
+  </g>
+  <text x="800" y="188" class="boxtext">Raw Movie Review</text>
+  <text x="800" y="307" class="boxtext">Text Cleaning and Tokenization</text>
+  <text x="800" y="425" class="boxtext">Token IDs and Padding</text>
+  <text x="800" y="450" class="small">Maximum sequence length: 64 tokens</text>
+  <text x="800" y="550" class="boxtext">Trainable Embedding Layer</text>
+  <text x="800" y="575" class="small">Embedding dimension: 200</text>
+
+  <g stroke="#334155" stroke-width="3" fill="none" marker-end="url(#arrow)">
+    <path d="M800 215 L800 260"/>
+    <path d="M800 340 L800 385"/>
+    <path d="M800 465 L800 510"/>
+    <path d="M425 885 L425 950 L560 950"/>
+    <path d="M1175 885 L1175 950 L1040 950"/>
+  </g>
+  <path d="M800 590 L800 630" stroke="#334155" stroke-width="3" fill="none"/>
+  <path d="M800 630 L425 630 L425 685" stroke="#334155" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M800 630 L1175 630 L1175 685" stroke="#334155" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <text x="398" y="657" class="branchleft">Model 1</text>
+  <text x="1202" y="657" class="branchright">Model 2</text>
+
+  <rect x="115" y="685" width="620" height="200" rx="18" fill="#1976d2"/>
+  <text x="425" y="730" class="modeltitle">TextCNN Baseline</text>
+  <line x1="175" y1="752" x2="675" y2="752" stroke="#90caf9" stroke-width="2"/>
+  <text x="425" y="790" class="modeltext">Parallel CNN filters: kernel sizes 2, 3, 4, 5</text>
+  <text x="425" y="820" class="modeltext">100 filters per kernel → Global Max Pooling</text>
+  <text x="425" y="850" class="modeltext">400 features → Dropout (0.5) → Dense Classifier</text>
+
+  <rect x="865" y="685" width="620" height="200" rx="18" fill="#1b8f5a"/>
+  <text x="1175" y="730" class="modeltitle">CNN–BiLSTM–Attention Hybrid</text>
+  <line x1="925" y1="752" x2="1425" y2="752" stroke="#9ee5c1" stroke-width="2"/>
+  <text x="1175" y="790" class="modeltext">Parallel CNN filters: kernel sizes 2, 3, 4, 5</text>
+  <text x="1175" y="820" class="modeltext">400 features → BiLSTM (128 units per direction)</text>
+  <text x="1175" y="850" class="modeltext">Masked Attention → Dense Classification Head</text>
+
+  <rect x="560" y="915" width="480" height="70" rx="14" fill="#334155"/>
+  <text x="800" y="960" class="output">Sentiment Output: Positive or Negative</text>
+</svg>
